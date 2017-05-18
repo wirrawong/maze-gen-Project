@@ -1,0 +1,86 @@
+public class huntAndKillMazeAlgorithm : mazeAlgorithm {
+
+    private int currentRow = 0;
+    private int currentColumn = 0;
+
+    private bool courseComplete = false;
+
+    public huntAndKillMazeAlgorithm(MazeCell[,] mazeCells) : base(mazeCells)
+    {
+
+    }
+    public override void CreateMaze()
+    {
+        HuntAndKill();
+    }
+
+    private void HuntAndKill()
+    {
+        mazeCells[currentRow, currentColumn].visited = true;
+
+        while(! courseComplete)
+        {
+            Kill(); //until hits a dead end
+            Hunt();
+            
+        }
+    }
+
+    private void Kill()
+    {
+        while(RouteStillAvailable(currentRow, currentColumn))
+        {
+            int direction = UnityEngine.Random.Range(1, 5);
+            //north
+            if (direction == 1 && CellsAvailable(currentRow -1, currentColumn))
+            {
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn].northWall);
+                DestroyWallIfItExists(mazeCells[currentRow -1, currentColumn].southWall);
+                currentRow--;
+            }
+            //south
+            else if (direction == 2 && CellsAvailable(currentRow + 1, currentColumn))
+            {
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn].southWall);
+                DestroyWallIfItExists(mazeCells[currentRow + 1, currentColumn].northWall);
+                currentRow++;
+            }
+            //east
+            else if (direction == 3 && CellsAvailable(currentRow, currentColumn +1))
+            {
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn].eastWall);
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn +1].westWall);
+                currentColumn++;
+            }
+            //west
+            else if (direction == 4 && CellsAvailable(currentRow, currentColumn -1))
+            {
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn].westWall);
+                DestroyWallIfItExists(mazeCells[currentRow, currentColumn -1].eastWall);
+                currentColumn--;
+            }
+            mazeCells[currentRow, currentColumn].visited = true;
+        }
+    }
+
+    private void Hunt()
+    {
+        courseComplete = true; //set true and check if there is still something below
+
+        for (int r = 0; r < mazeRows; r++)
+        {
+            for (int c = 0; c < mazeColumns; c++)
+            {
+                if(!mazeCells[r,c].visited && CellHasAnAdjacentVisitedCell(r,c))
+                {
+                    courseComplete = false; //found something left
+                    currentRow = r;
+                    currentColumn = c;
+
+                    DestroyAdjecentWall(currentRow, currentColumn);
+                    mazeCells[currentRow, currentColumn].visited = true;
+                    return;
+                }
+            }
+        }
+    }
