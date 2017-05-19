@@ -152,3 +152,41 @@ private bool RouteStillAvailable(int row, int column)
             }
         }
     }
+private void DestroyWallIfItExists(GameObject wall)
+    {
+        if(wall != null)
+        {
+            GameObject.Destroy(wall);
+        }
+    }
+
+    private bool CellHasAnAdjacentVisitedCell(int row, int column)
+    {
+        int visitedCells = 0;
+        //Look north if we're at row 1 or more
+        if(row > 0 && mazeCells[row -1, column].visited)
+        {
+            visitedCells++;
+        }
+
+        //Look south if we're at the 2nd last row or less
+        if(row < (mazeRows - 2) && mazeCells[row + 1, column].visited)
+        {
+            visitedCells++;
+        }
+
+        //Look west if we're at coloumn 1 or more
+        if(column > 0 && mazeCells[row, column - 1].visited)
+        {
+            visitedCells++;
+        }
+
+        //Look east if we're at the 2nd last column or less
+        if(column < (mazeColumns - 2) && mazeCells[row, column + 1].visited)
+        {
+            visitedCells++;
+        }
+        //return if there are adjecent cells
+        return visitedCells > 0;
+    }
+}
