@@ -1,22 +1,27 @@
-public class mazeLoader : MonoBehaviour {
+public class mazeLoader : MonoBehaviour{ //IMazeLoadable 
+
     public int mazeRows, mazeColumns;
     public GameObject wall;
     public float size = 2f;
 
     private MazeCell[,] mazeCells;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        //IMazeLoadable interfmazeL = new mazeLoader();
+        //interfmazeL.InitializeMaze();
         InitializeMaze();
 
-        mazeAlgorithm ma = new huntAndKillMazeAlgorithm (mazeCells);
+        mazeAlgorithm ma = new huntAndKillMazeAlgorithm(mazeCells);
         ma.CreateMaze();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     private void InitializeMaze()
     {
         mazeCells = new MazeCell[mazeRows, mazeColumns];
