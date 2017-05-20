@@ -1,4 +1,5 @@
-public abstract class mazeAlgorithm {
+public abstract class mazeAlgorithm
+{
 
     protected MazeCell[,] mazeCells;
     protected int mazeRows, mazeColumns;
@@ -12,3 +13,8 @@ public abstract class mazeAlgorithm {
 
     public abstract void CreateMaze();
 }
+
+/*public interface IMazeLoadable
+{
+    void InitializeMaze();
+}*/
