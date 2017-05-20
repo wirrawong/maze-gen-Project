@@ -30,9 +30,14 @@ public class huntAndKillMazeAlgorithm : mazeAlgorithm
             {
                 mazeCells[r, c] = new MazeCell();
 
-                mazeCells[r, c].floor = GameObject.Instantiate(wall, new Vector3(r * size, -(size / 2f), c * size), Quaternion.identity) as GameObject;
-                mazeCells[r, c].floor.name = "Floor " + r + "," + c;
-                mazeCells[r, c].floor.transform.Rotate(Vector3.right, 90f);
+                if(r == 0 && c == 0)
+                {
+                    mazeCells[r, c].floor = GameObject.Instantiate(wall, new Vector3(((mazeRows - 1) * size)/ 2f, -(size/2f), ((mazeColumns - 1) * size) / 2f), Quaternion.identity) as GameObject;
+                    mazeCells[r, c].floor.name = "Floor " + r + "," + c;
+                    mazeCells[r, c].floor.transform.Rotate(Vector3.right, 90f);
+                    mazeCells[r, c].floor.transform.localScale += new Vector3((mazeRows - 1) * size, (mazeColumns - 1) * size, 0.0f);
+                    mazeCells[r, c].floor.GetComponent<Renderer>().material.color = Color.blue;
+                }
 
                 if (c == 0)
                 {
